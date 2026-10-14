@@ -1,0 +1,12 @@
+txt="intro to python"
+print(len(txt))
+print(txt[0]+txt[len(txt)-1])
+alpha=["a","b","c","d"]
+for letter in alpha:
+    i=0
+    count=0
+while(i<len(txt)-1):
+    if(txt[i]==letter):
+        count=count+1
+        i=i+1
+    print("total","letter",)

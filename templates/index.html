@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100b0e">
+  <title>Within | A Personality Reflection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #100b0e;
+      --panel: rgba(27, 19, 23, .84);
+      --panel-edge: rgba(255, 255, 255, .09);
+      --text: #f5edf0;
+      --muted: #a99ba1;
+      --maroon: #800020;
+      --rose: #ed668a;
+      --glow: rgba(210, 35, 82, .25);
+      --mono: "DM Mono", monospace;
+      --sans: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 50% 10%, rgba(128, 0, 32, .22), transparent 38rem),
+        radial-gradient(ellipse at 100% 90%, rgba(81, 20, 43, .18), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+    }
+
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 54px 54px;
+      content: "";
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+      pointer-events: none;
+    }
+
+    .ambient-field {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      display: block;
+      width: var(--orb-size);
+      aspect-ratio: 1;
+      border: 1px solid rgba(237, 102, 138, .12);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(237, 102, 138, .13), transparent 60%),
+        radial-gradient(circle, transparent 52%, rgba(128, 0, 32, .11) 53%, transparent 54%);
+      box-shadow: 0 0 44px rgba(128, 0, 32, .08), inset 0 0 35px rgba(237, 102, 138, .035);
+      animation: ambient-drift var(--orb-duration) ease-in-out infinite alternate;
+      opacity: .6;
+    }
+
+    .ambient-orb:nth-child(1) {
+      --orb-size: clamp(150px, 22vw, 290px);
+      --orb-duration: 20s;
+      top: 9%;
+      left: -7%;
+    }
+
+    .ambient-orb:nth-child(2) {
+      --orb-size: clamp(190px, 28vw, 360px);
+      --orb-duration: 26s;
+      top: 35%;
+      right: -12%;
+      animation-delay: -8s;
+    }
+
+    .ambient-orb:nth-child(3) {
+      --orb-size: clamp(110px, 16vw, 210px);
+      --orb-duration: 23s;
+      bottom: -8%;
+      left: 32%;
+      animation-delay: -13s;
+    }
+
+    .ambient-orb:nth-child(4) {
+      --orb-size: clamp(90px, 13vw, 170px);
+      --orb-duration: 18s;
+      top: 55%;
+      left: 12%;
+      animation-delay: -5s;
+    }
+
+    @keyframes ambient-drift {
+      from { transform: translate3d(-12px, 14px, 0) rotate(-8deg) scale(.96); }
+      to { transform: translate3d(18px, -22px, 0) rotate(9deg) scale(1.04); }
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+    }
+
+    button { font: inherit; }
+    button:focus-visible { outline: 2px solid #ff8ba7; outline-offset: 4px; }
+
+    .shell {
+      width: min(100% - 40px, 880px);
+      margin-inline: auto;
+      padding: 32px 0 42px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: clamp(40px, 8vh, 78px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border: 1px solid rgba(237, 102, 138, .45);
+      border-radius: 50%;
+      color: var(--rose);
+      box-shadow: 0 0 20px var(--glow), inset 0 0 14px rgba(237, 102, 138, .12);
+    }
+
+    .session-label, .eyebrow, .progress-copy, .question-number, .trait-score {
+      font-family: var(--mono);
+      text-transform: uppercase;
+    }
+
+    .session-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+
+    .intro { text-align: center; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 20px;
+      color: #ee91a8;
+      font-size: 10px;
+      letter-spacing: .2em;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      width: 22px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose));
+      content: "";
+    }
+
+    .eyebrow::after { transform: rotate(180deg); }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      max-width: 700px;
+      margin: 0 auto 18px;
+      font-size: clamp(42px, 8vw, 76px);
+      font-weight: 600;
+      letter-spacing: -.07em;
+      line-height: .98;
+    }
+
+    h1 span {
+      color: #e87996;
+      text-shadow: 0 0 34px rgba(237, 102, 138, .24);
+    }
+
+    .intro-copy {
+      max-width: 520px;
+      margin: 0 auto 28px;
+      color: #b9aeb2;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-bottom: 34px;
+      color: #bbaeb3;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .meta-row span { display: inline-flex; align-items: center; gap: 8px; }
+    .meta-row i { color: var(--rose); }
+
+    .primary-button {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 25px;
+      border: 1px solid rgba(255, 139, 167, .58);
+      border-radius: 6px;
+      background: linear-gradient(135deg, #8c1234, #5b1028);
+      box-shadow: 0 0 30px rgba(174, 19, 62, .28), inset 0 1px rgba(255,255,255,.13);
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+      border-color: #ff9bb3;
+      box-shadow: 0 0 38px rgba(210, 35, 82, .42), inset 0 1px rgba(255,255,255,.18);
+    }
+
+    .assessment, .results { display: none; }
+    .assessment.active, .results.active { display: block; }
+
+    .progress-area {
+      max-width: 660px;
+      margin: 0 auto 24px;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .progress-copy {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+
+    .progress-copy strong { color: #f5dfe6; font-weight: 500; }
+
+    .progress-track {
+      height: 3px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: rgba(255,255,255,.09);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--maroon), #fa7597);
+      box-shadow: 0 0 12px var(--rose);
+      transition: width .45s ease;
+    }
+
+    .card-wrap { perspective: 1000px; }
+
+    .question-card {
+      position: relative;
+      max-width: 660px;
+      min-height: 330px;
+      margin: 0 auto;
+      padding: clamp(25px, 5vw, 46px);
+      overflow: hidden;
+      border: 1px solid var(--panel-edge);
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(36, 25, 30, .96), rgba(22, 16, 19, .96));
+      box-shadow: 0 28px 80px rgba(0,0,0,.3), 0 0 50px rgba(128,0,32,.11), inset 0 1px rgba(255,255,255,.04);
+      transform-style: preserve-3d;
+    }
+
+    .question-card::after {
+      position: absolute;
+      top: -90px;
+      right: -90px;
+      width: 210px;
+      height: 210px;
+      border: 1px solid rgba(237,102,138,.12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 25px rgba(237,102,138,.025), 0 0 0 50px rgba(237,102,138,.018);
+      content: "";
+      pointer-events: none;
+    }
+
+    .question-number {
+      margin-bottom: 22px;
+      color: #e77a98;
+      font-size: 10px;
+      letter-spacing: .16em;
+    }
+
+    .question-text {
+      max-width: 500px;
+      margin-bottom: 30px;
+      font-size: clamp(23px, 4vw, 34px);
+      font-weight: 500;
+      letter-spacing: -.04em;
+      line-height: 1.35;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 9px;
+    }
+
+    .answer {
+      min-height: 58px;
+      padding: 8px 5px;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 6px;
+      background: rgba(255,255,255,.025);
+      color: #d2c7cb;
+      cursor: pointer;
+      font-size: 11px;
+      line-height: 1.35;
+      transition: border-color .18s, background .18s, color .18s, transform .18s, box-shadow .18s;
+    }
+
+    .answer:hover, .answer.selected {
+      transform: translateY(-2px);
+      border-color: rgba(237,102,138,.68);
+      background: rgba(128,0,32,.28);
+      box-shadow: 0 0 20px rgba(210,35,82,.13);
+      color: white;
+    }
+
+    .answer.selected { box-shadow: 0 0 22px rgba(210,35,82,.25), inset 0 0 12px rgba(210,35,82,.1); }
+
+    .question-nav {
+      display: flex;
+      max-width: 660px;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px auto 0;
+    }
+
+    .nav-button {
+      padding: 10px 0;
+      border: 0;
+      background: transparent;
+      color: #b9aeb2;
+      cursor: pointer;
+      font-size: 11px;
+      transition: color .2s;
+    }
+
+    .nav-button:hover:not(:disabled) { color: #fff; }
+    .nav-button:disabled { cursor: default; opacity: .35; }
+
+    .scale-hint {
+      color: #82777c;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .results { text-align: center; }
+
+    .results h2 {
+      margin-bottom: 9px;
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 600;
+      letter-spacing: -.06em;
+    }
+
+    .results-intro {
+      margin-bottom: 30px;
+      color: #b9aeb2;
+      font-size: 14px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(220px, .7fr);
+      gap: 18px;
+      align-items: stretch;
+      max-width: 760px;
+      margin: 0 auto 22px;
+      text-align: left;
+    }
+
+    .chart-panel, .trait-panel {
+      border: 1px solid var(--panel-edge);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: 0 20px 65px rgba(0,0,0,.22);
+    }
+
+    .chart-panel { display: grid; min-height: 350px; padding: 20px; place-items: center; }
+    .chart-container { position: relative; width: 100%; height: 310px; }
+    .trait-panel { padding: 22px; }
+
+    .trait-panel h3 {
+      margin-bottom: 19px;
+      color: #b9aeb2;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .trait-row { margin-bottom: 18px; }
+    .trait-row:last-child { margin-bottom: 0; }
+
+    .trait-line { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 7px; }
+    .trait-name { font-size: 12px; font-weight: 600; }
+    .trait-score { color: #e87996; font-size: 10px; }
+    .trait-meter { height: 4px; overflow: hidden; border-radius: 8px; background: rgba(255,255,255,.08); }
+    .trait-meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #800020, #f07898); box-shadow: 0 0 10px rgba(237,102,138,.5); }
+
+    .disclaimer {
+      max-width: 690px;
+      margin: 0 auto 24px;
+      color: #8e8287;
+      font-size: 11px;
+      line-height: 1.65;
+      text-align: center;
+    }
+
+    .restart-button { min-height: 46px; }
+
+    footer {
+      margin-top: clamp(50px, 8vh, 82px);
+      color: #71676b;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 28px, 880px); padding-top: 20px; }
+      .topbar { margin-bottom: 46px; }
+      .session-label { font-size: 8px; }
+      .meta-row { gap: 12px; font-size: 8px; }
+      .question-card { min-height: 340px; padding: 25px 20px; }
+      .answers { gap: 5px; }
+      .answer { min-height: 64px; font-size: 9px; }
+      .scale-hint { max-width: 135px; font-size: 8px; line-height: 1.5; }
+      .results-grid { grid-template-columns: 1fr; }
+      .chart-panel { min-height: 310px; }
+      .chart-container { height: 280px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .ambient-orb { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-field" aria-hidden="true">
+    <span class="ambient-orb"></span>
+    <span class="ambient-orb"></span>
+    <span class="ambient-orb"></span>
+    <span class="ambient-orb"></span>
+  </div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Within home">
+        <span class="brand-mark"><i class="fa-solid fa-eye" aria-hidden="true"></i></span>
+        <span>Within</span>
+      </a>
+      <span class="session-label">A guided self-reflection</span>
+    </header>
+
+    <section class="intro" id="intro">
+      <p class="eyebrow">Personality, in perspective</p>
+      <h1>Look a little <span>closer.</span></h1>
+      <p class="intro-copy">A quiet moment to notice how you think, feel, and connect. Move through each statement at your own pace; there are no right or wrong answers.</p>
+      <div class="meta-row" aria-label="Assessment details">
+        <span><i class="fa-regular fa-clock" aria-hidden="true"></i> About 4 minutes</span>
+        <span><i class="fa-solid fa-shapes" aria-hidden="true"></i> 5 dimensions</span>
+        <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Private by design</span>
+      </div>
+      <button class="primary-button" id="begin-button" type="button">
+        Begin the reflection <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </button>
+    </section>
+
+    <section class="assessment" id="assessment" aria-label="Personality questionnaire">
+      <div class="progress-area">
+        <div class="progress-head">
+          <span class="progress-copy">Reflection <strong id="progress-count">01 / 25</strong></span>
+          <span class="progress-copy" id="progress-percent">4% complete</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Questionnaire progress" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0" id="progressbar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="card-wrap">
+        <article class="question-card" id="question-card" aria-live="polite">
+          <p class="question-number" id="question-number"></p>
+          <h2 class="question-text" id="question-text"></h2>
+          <div class="answers" id="answers" role="group" aria-label="Choose how much you agree"></div>
+        </article>
+      </div>
+      <nav class="question-nav" aria-label="Question navigation">
+        <button class="nav-button" id="back-button" type="button"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</button>
+        <span class="scale-hint">Choose the answer that feels most like you</span>
+        <span style="width: 43px" aria-hidden="true"></span>
+      </nav>
+    </section>
+
+    <section class="results" id="results" aria-labelledby="results-title" aria-live="polite">
+      <p class="eyebrow">Reflection complete</p>
+      <h2 id="results-title">Your inner landscape</h2>
+      <p class="results-intro">A snapshot of the patterns you noticed in yourself.</p>
+      <div class="results-grid">
+        <div class="chart-panel">
+          <div class="chart-container"><canvas id="personality-chart" role="img" aria-label="Radar chart showing your scores across five personality dimensions"></canvas></div>
+        </div>
+        <div class="trait-panel">
+          <h3>Your dimensions</h3>
+          <div id="trait-list"></div>
+        </div>
+      </div>
+      <p class="disclaimer">This brief, informal reflection is inspired by the Big Five (OCEAN) framework. It is not a validated psychological instrument or a clinical assessment. Your responses stay in this browser and are not sent to a server.</p>
+      <button class="primary-button restart-button" id="restart-button" type="button">
+        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reflect again
+      </button>
+    </section>
+
+    <footer>Take what resonates. Leave room for the rest.</footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>
+    (() => {
+      const traits = ["Openness", "Conscientiousness", "Extraversion", "Agreeableness", "Neuroticism"];
+      const questions = [
+        { trait: "Openness", reverse: false, text: "I enjoy exploring ideas that challenge the way I usually see things." },
+        { trait: "Conscientiousness", reverse: false, text: "I make a plan before beginning a task that matters to me." },
+        { trait: "Extraversion", reverse: false, text: "Being around a lively group of people tends to energize me." },
+        { trait: "Agreeableness", reverse: false, text: "I try to understand where someone is coming from, even when we disagree." },
+        { trait: "Neuroticism", reverse: false, text: "Small setbacks can stay on my mind for quite a while." },
+        { trait: "Openness", reverse: true, text: "I prefer familiar routines to unfamiliar experiences." },
+        { trait: "Conscientiousness", reverse: true, text: "I often leave important tasks until the last possible moment." },
+        { trait: "Extraversion", reverse: true, text: "I usually feel most comfortable keeping to myself in social situations." },
+        { trait: "Agreeableness", reverse: true, text: "When people frustrate me, I find it hard to give them the benefit of the doubt." },
+        { trait: "Neuroticism", reverse: true, text: "I stay calm even when several things go wrong at once." },
+        { trait: "Openness", reverse: false, text: "I find myself curious about art, stories, or experiences outside my usual interests." },
+        { trait: "Conscientiousness", reverse: false, text: "I follow through on commitments, including the small ones." },
+        { trait: "Extraversion", reverse: false, text: "I am comfortable being the one who starts a conversation." },
+        { trait: "Agreeableness", reverse: false, text: "I am willing to adjust my approach to make working together easier." },
+        { trait: "Neuroticism", reverse: false, text: "I sometimes worry about what might go wrong, even when things seem fine." },
+        { trait: "Openness", reverse: true, text: "Abstract or imaginative topics rarely hold my attention." },
+        { trait: "Conscientiousness", reverse: true, text: "I find it difficult to keep my space or plans organized." },
+        { trait: "Extraversion", reverse: true, text: "After social events, I usually need plenty of time alone to recharge." },
+        { trait: "Agreeableness", reverse: true, text: "I would rather insist on my way than compromise to keep things peaceful." },
+        { trait: "Neuroticism", reverse: true, text: "I recover quickly after an emotionally difficult day." },
+        { trait: "Openness", reverse: false, text: "I like to imagine different possibilities before settling on one answer." },
+        { trait: "Conscientiousness", reverse: false, text: "I pay close attention to details that others might overlook." },
+        { trait: "Extraversion", reverse: false, text: "I tend to bring enthusiasm into the things I do with others." },
+        { trait: "Agreeableness", reverse: false, text: "I notice when someone needs support and try to offer it." },
+        { trait: "Neuroticism", reverse: false, text: "My mood can shift noticeably when I feel under pressure." }
+      ];
+      const answerLabels = ["Strongly\ndisagree", "Disagree", "In between", "Agree", "Strongly\nagree"];
+      const answers = Array(questions.length).fill(null);
+      const intro = document.querySelector("#intro");
+      const assessment = document.querySelector("#assessment");
+      const results = document.querySelector("#results");
+      const card = document.querySelector("#question-card");
+      const answerContainer = document.querySelector("#answers");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let currentIndex = 0;
+      let chart = null;
+      let audioContext = null;
+      let isTransitioning = false;
+
+      function playTone(frequency, duration, type, volume, endFrequency) {
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          audioContext ||= new AudioContextClass();
+          if (audioContext.state === "suspended") audioContext.resume();
+
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          const now = audioContext.currentTime;
+          oscillator.type = type;
+          oscillator.frequency.setValueAtTime(frequency, now);
+          if (endFrequency) oscillator.frequency.exponentialRampToValueAtTime(endFrequency, now + duration);
+          gain.gain.setValueAtTime(volume, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+          oscillator.connect(gain);
+          gain.connect(audioContext.destination);
+          oscillator.start(now);
+          oscillator.stop(now + duration);
+        } catch (error) {
+          console.warn("Audio feedback could not be played.", error);
+        }
+      }
+
+      function clickSound() {
+        playTone(720, .075, "sine", .035, 430);
+        playTone(1450, .045, "triangle", .012, 950);
+      }
+
+      function resultChime() {
+        [523.25, 659.25, 783.99].forEach((frequency, index) => {
+          window.setTimeout(() => playTone(frequency, .8, "sine", .045, frequency * .96), index * 125);
+        });
+      }
+
+      function animateTo(targets, vars) {
+        if (reducedMotion || !window.gsap) return Promise.resolve();
+        return gsap.to(targets, vars);
+      }
+
+      function renderQuestion() {
+        const question = questions[currentIndex];
+        document.querySelector("#question-number").textContent =
+          `Question ${String(currentIndex + 1).padStart(2, "0")}  /  ${questions.length}`;
+        document.querySelector("#question-text").textContent = question.text;
+        document.querySelector("#progress-count").textContent =
+          `${String(currentIndex + 1).padStart(2, "0")} / ${questions.length}`;
+        const completion = Math.round(((currentIndex + 1) / questions.length) * 100);
+        document.querySelector("#progress-percent").textContent = `${completion}% complete`;
+        document.querySelector("#progress-fill").style.width = `${completion}%`;
+        document.querySelector("#progressbar").setAttribute("aria-valuenow", String(currentIndex + 1));
+        document.querySelector("#back-button").disabled = currentIndex === 0;
+        answerContainer.replaceChildren();
+
+        answerLabels.forEach((label, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "answer";
+          button.textContent = label.replace("\n", " ");
+          button.setAttribute("aria-label", `${index + 1}: ${label.replace("\n", " ")}`);
+          button.setAttribute("aria-pressed", String(answers[currentIndex] === index + 1));
+          if (answers[currentIndex] === index + 1) button.classList.add("selected");
+          button.addEventListener("click", () => selectAnswer(index + 1));
+          answerContainer.append(button);
+        });
+
+        animateTo(card, { opacity: 1, y: 0, rotationX: 0, duration: .42, ease: "power3.out" });
+        if (!reducedMotion && window.gsap) {
+          gsap.fromTo("#question-number, #question-text, .answer",
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: .38, stagger: .035, ease: "power2.out", delay: .06 });
+        }
+      }
+
+      function selectAnswer(value) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        answers[currentIndex] = value;
+        clickSound();
+        const selected = answerContainer.children[value - 1];
+        selected.classList.add("selected");
+        selected.setAttribute("aria-pressed", "true");
+        window.setTimeout(() => {
+          animateTo(card, {
+            opacity: 0,
+            y: -22,
+            rotationX: -4,
+            duration: .24,
+            ease: "power2.in"
+          }).then(() => {
+            isTransitioning = false;
+            if (currentIndex === questions.length - 1) showResults();
+            else {
+              currentIndex += 1;
+              renderQuestion();
+            }
+          });
+        }, 180);
+      }
+
+      function calculateScores() {
+        const totals = Object.fromEntries(traits.map((trait) => [trait, { sum: 0, count: 0 }]));
+        questions.forEach((question, index) => {
+          const response = answers[index];
+          const score = question.reverse ? 6 - response : response;
+          totals[question.trait].sum += score;
+          totals[question.trait].count += 1;
+        });
+        return traits.map((trait) => Math.round(((totals[trait].sum / totals[trait].count - 1) / 4) * 100));
+      }
+
+      function renderTraitList(scores) {
+        const list = document.querySelector("#trait-list");
+        list.replaceChildren();
+        traits.forEach((trait, index) => {
+          const row = document.createElement("div");
+          row.className = "trait-row";
+          const line = document.createElement("div");
+          line.className = "trait-line";
+          const name = document.createElement("span");
+          name.className = "trait-name";
+          name.textContent = trait;
+          const score = document.createElement("span");
+          score.className = "trait-score";
+          score.textContent = `${scores[index]}%`;
+          const meter = document.createElement("div");
+          meter.className = "trait-meter";
+          meter.setAttribute("role", "meter");
+          meter.setAttribute("aria-label", `${trait} score`);
+          meter.setAttribute("aria-valuemin", "0");
+          meter.setAttribute("aria-valuemax", "100");
+          meter.setAttribute("aria-valuenow", String(scores[index]));
+          const fill = document.createElement("span");
+          fill.style.width = `${scores[index]}%`;
+          meter.append(fill);
+          line.append(name, score);
+          row.append(line, meter);
+          list.append(row);
+        });
+      }
+
+      function showResults() {
+        const scores = calculateScores();
+        assessment.classList.remove("active");
+        results.classList.add("active");
+        renderTraitList(scores);
+        if (chart) chart.destroy();
+        const context = document.querySelector("#personality-chart").getContext("2d");
+        chart = new Chart(context, {
+          type: "radar",
+          data: {
+            labels: traits,
+            datasets: [{
+              label: "Your reflection",
+              data: scores,
+              fill: true,
+              backgroundColor: "rgba(190, 37, 78, 0.2)",
+              borderColor: "#ed668a",
+              borderWidth: 2,
+              pointBackgroundColor: "#ff9bb3",
+              pointBorderColor: "#fff1f5",
+              pointHoverRadius: 7,
+              pointRadius: 4
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            animation: { duration: reducedMotion ? 0 : 1400, easing: "easeOutQuart" },
+            scales: {
+              r: {
+                min: 0,
+                max: 100,
+                ticks: { display: false, stepSize: 20 },
+                grid: { color: "rgba(255, 255, 255, .1)" },
+                angleLines: { color: "rgba(255, 255, 255, .12)" },
+                pointLabels: {
+                  color: "#eadde2",
+                  font: { family: "Manrope", size: 11, weight: "600" }
+                }
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: "rgba(20, 13, 17, .96)",
+                borderColor: "rgba(237, 102, 138, .4)",
+                borderWidth: 1,
+                titleColor: "#f5edf0",
+                bodyColor: "#ed9ab0",
+                callbacks: { label: (context) => ` ${context.formattedValue}%` }
+              }
+            }
+          }
+        });
+        if (!reducedMotion && window.gsap) {
+          gsap.fromTo(results, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .65, ease: "power3.out" });
+        }
+        resultChime();
+      }
+
+      document.querySelector("#begin-button").addEventListener("click", () => {
+        clickSound();
+        intro.hidden = true;
+        assessment.classList.add("active");
+        renderQuestion();
+      });
+
+      document.querySelector("#back-button").addEventListener("click", () => {
+        if (currentIndex === 0 || isTransitioning) return;
+        clickSound();
+        currentIndex -= 1;
+        renderQuestion();
+      });
+
+      document.querySelector("#restart-button").addEventListener("click", () => {
+        clickSound();
+        isTransitioning = false;
+        if (chart) {
+          chart.destroy();
+          chart = null;
+        }
+        answers.fill(null);
+        currentIndex = 0;
+        results.classList.remove("active");
+        assessment.classList.add("active");
+        renderQuestion();
+      });
+    })();
+  </script>
+</body>
+</html>
