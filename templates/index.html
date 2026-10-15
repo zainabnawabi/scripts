@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100b0e">
-  <title>Within | A Personality Reflection</title>
+  <meta name="theme-color" content="#000000">
+  <title>NODE//09 | Personal Reflection</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,14 +12,14 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #100b0e;
-      --panel: rgba(27, 19, 23, .84);
-      --panel-edge: rgba(255, 255, 255, .09);
-      --text: #f5edf0;
-      --muted: #a99ba1;
-      --maroon: #800020;
-      --rose: #ed668a;
-      --glow: rgba(210, 35, 82, .25);
+      --bg: #000000;
+      --panel: rgba(5, 17, 19, .9);
+      --panel-edge: rgba(0, 242, 254, .2);
+      --text: #e6fbfc;
+      --muted: #78999b;
+      --teal: #008080;
+      --cyan: #00f2fe;
+      --glow: rgba(0, 242, 254, .18);
       --mono: "DM Mono", monospace;
       --sans: "Manrope", sans-serif;
     }
@@ -31,10 +31,7 @@
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
-      background:
-        radial-gradient(ellipse at 50% 10%, rgba(128, 0, 32, .22), transparent 38rem),
-        radial-gradient(ellipse at 100% 90%, rgba(81, 20, 43, .18), transparent 34rem),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
     }
@@ -43,15 +40,15 @@
       position: fixed;
       z-index: -1;
       inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-      background-size: 54px 54px;
+      background-image: linear-gradient(rgba(0,242,254,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,242,254,.035) 1px, transparent 1px);
+      background-size: 48px 48px;
       content: "";
       mask-image: linear-gradient(to bottom, black, transparent 90%);
       pointer-events: none;
     }
 
-    .ambient-field {
+    .network-field {
       position: fixed;
       z-index: 0;
       inset: 0;
@@ -59,56 +56,14 @@
       pointer-events: none;
     }
 
-    .ambient-orb {
-      position: absolute;
-      display: block;
-      width: var(--orb-size);
-      aspect-ratio: 1;
-      border: 1px solid rgba(237, 102, 138, .12);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 35%, rgba(237, 102, 138, .13), transparent 60%),
-        radial-gradient(circle, transparent 52%, rgba(128, 0, 32, .11) 53%, transparent 54%);
-      box-shadow: 0 0 44px rgba(128, 0, 32, .08), inset 0 0 35px rgba(237, 102, 138, .035);
-      animation: ambient-drift var(--orb-duration) ease-in-out infinite alternate;
-      opacity: .6;
-    }
-
-    .ambient-orb:nth-child(1) {
-      --orb-size: clamp(150px, 22vw, 290px);
-      --orb-duration: 20s;
-      top: 9%;
-      left: -7%;
-    }
-
-    .ambient-orb:nth-child(2) {
-      --orb-size: clamp(190px, 28vw, 360px);
-      --orb-duration: 26s;
-      top: 35%;
-      right: -12%;
-      animation-delay: -8s;
-    }
-
-    .ambient-orb:nth-child(3) {
-      --orb-size: clamp(110px, 16vw, 210px);
-      --orb-duration: 23s;
-      bottom: -8%;
-      left: 32%;
-      animation-delay: -13s;
-    }
-
-    .ambient-orb:nth-child(4) {
-      --orb-size: clamp(90px, 13vw, 170px);
-      --orb-duration: 18s;
-      top: 55%;
-      left: 12%;
-      animation-delay: -5s;
-    }
-
-    @keyframes ambient-drift {
-      from { transform: translate3d(-12px, 14px, 0) rotate(-8deg) scale(.96); }
-      to { transform: translate3d(18px, -22px, 0) rotate(9deg) scale(1.04); }
-    }
+    .network-svg { width: 100%; height: 100%; opacity: .76; }
+    .network-link { fill: none; stroke: rgba(0, 128, 128, .42); stroke-width: 1; }
+    .network-link--bright { stroke: rgba(0, 242, 254, .55); stroke-dasharray: 5 12; }
+    .network-node { fill: #008080; filter: drop-shadow(0 0 7px rgba(0,242,254,.8)); }
+    .network-packet { fill: #00f2fe; filter: drop-shadow(0 0 5px #00f2fe); }
+    .mainframe-halo { fill: rgba(0,128,128,.06); stroke: rgba(0,242,254,.32); }
+    .mainframe-core { fill: #008080; stroke: #00f2fe; stroke-width: 2; filter: drop-shadow(0 0 13px #00f2fe); }
+    .mainframe-label { fill: #00f2fe; font: 10px "DM Mono", monospace; letter-spacing: 2px; text-anchor: middle; }
 
     .shell {
       position: relative;
@@ -116,7 +71,7 @@
     }
 
     button { font: inherit; }
-    button:focus-visible { outline: 2px solid #ff8ba7; outline-offset: 4px; }
+    button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
 
     .shell {
       width: min(100% - 40px, 880px);
@@ -148,10 +103,10 @@
       width: 32px;
       height: 32px;
       place-items: center;
-      border: 1px solid rgba(237, 102, 138, .45);
+      border: 1px solid rgba(0, 242, 254, .45);
       border-radius: 50%;
-      color: var(--rose);
-      box-shadow: 0 0 20px var(--glow), inset 0 0 14px rgba(237, 102, 138, .12);
+      color: var(--cyan);
+      box-shadow: 0 0 20px var(--glow), inset 0 0 14px rgba(0, 242, 254, .12);
     }
 
     .session-label, .eyebrow, .progress-copy, .question-number, .trait-score {
@@ -165,14 +120,26 @@
       letter-spacing: .12em;
     }
 
-    .intro { text-align: center; }
+    .intro {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin-inline: auto;
+      padding: clamp(28px, 5vw, 48px);
+      border: 1px solid var(--panel-edge);
+      border-radius: 14px;
+      background: rgba(10, 10, 15, .92);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .55), 0 0 40px rgba(0, 128, 128, .12);
+      text-align: center;
+      isolation: isolate;
+    }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 9px;
       margin: 0 0 20px;
-      color: #ee91a8;
+      color: var(--cyan);
       font-size: 10px;
       letter-spacing: .2em;
     }
@@ -180,7 +147,7 @@
     .eyebrow::before, .eyebrow::after {
       width: 22px;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--rose));
+      background: linear-gradient(90deg, transparent, var(--cyan));
       content: "";
     }
 
@@ -198,14 +165,14 @@
     }
 
     h1 span {
-      color: #e87996;
-      text-shadow: 0 0 34px rgba(237, 102, 138, .24);
+      color: var(--cyan);
+      text-shadow: 0 0 34px rgba(0, 242, 254, .24);
     }
 
     .intro-copy {
       max-width: 520px;
       margin: 0 auto 28px;
-      color: #b9aeb2;
+      color: #91abad;
       font-size: 15px;
       line-height: 1.8;
     }
@@ -215,7 +182,7 @@
       justify-content: center;
       gap: 22px;
       margin-bottom: 34px;
-      color: #bbaeb3;
+      color: #91abad;
       font-family: var(--mono);
       font-size: 10px;
       letter-spacing: .1em;
@@ -223,7 +190,7 @@
     }
 
     .meta-row span { display: inline-flex; align-items: center; gap: 8px; }
-    .meta-row i { color: var(--rose); }
+    .meta-row i { color: var(--cyan); }
 
     .primary-button {
       display: inline-flex;
@@ -232,10 +199,10 @@
       justify-content: center;
       gap: 12px;
       padding: 0 25px;
-      border: 1px solid rgba(255, 139, 167, .58);
+      border: 1px solid rgba(0, 242, 254, .55);
       border-radius: 6px;
-      background: linear-gradient(135deg, #8c1234, #5b1028);
-      box-shadow: 0 0 30px rgba(174, 19, 62, .28), inset 0 1px rgba(255,255,255,.13);
+      background: linear-gradient(135deg, #006b6b, #063438);
+      box-shadow: 0 0 30px rgba(0, 128, 128, .3), inset 0 1px rgba(255,255,255,.13);
       color: white;
       cursor: pointer;
       font-size: 12px;
@@ -247,8 +214,8 @@
 
     .primary-button:hover {
       transform: translateY(-2px);
-      border-color: #ff9bb3;
-      box-shadow: 0 0 38px rgba(210, 35, 82, .42), inset 0 1px rgba(255,255,255,.18);
+      border-color: var(--cyan);
+      box-shadow: 0 0 38px rgba(0, 242, 254, .24), inset 0 1px rgba(255,255,255,.18);
     }
 
     .assessment, .results { display: none; }
@@ -271,7 +238,7 @@
       letter-spacing: .12em;
     }
 
-    .progress-copy strong { color: #f5dfe6; font-weight: 500; }
+    .progress-copy strong { color: #d9ffff; font-weight: 500; }
 
     .progress-track {
       height: 3px;
@@ -284,8 +251,8 @@
       width: 0;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--maroon), #fa7597);
-      box-shadow: 0 0 12px var(--rose);
+      background: linear-gradient(90deg, var(--teal), var(--cyan));
+      box-shadow: 0 0 12px var(--cyan);
       transition: width .45s ease;
     }
 
@@ -300,8 +267,8 @@
       overflow: hidden;
       border: 1px solid var(--panel-edge);
       border-radius: 14px;
-      background: linear-gradient(145deg, rgba(36, 25, 30, .96), rgba(22, 16, 19, .96));
-      box-shadow: 0 28px 80px rgba(0,0,0,.3), 0 0 50px rgba(128,0,32,.11), inset 0 1px rgba(255,255,255,.04);
+      background: linear-gradient(145deg, rgba(5, 24, 26, .97), rgba(3, 11, 13, .97));
+      box-shadow: 0 28px 80px rgba(0,0,0,.55), 0 0 50px rgba(0,128,128,.12), inset 0 1px rgba(0,242,254,.06);
       transform-style: preserve-3d;
     }
 
@@ -311,16 +278,16 @@
       right: -90px;
       width: 210px;
       height: 210px;
-      border: 1px solid rgba(237,102,138,.12);
+      border: 1px solid rgba(0,242,254,.12);
       border-radius: 50%;
-      box-shadow: 0 0 0 25px rgba(237,102,138,.025), 0 0 0 50px rgba(237,102,138,.018);
+      box-shadow: 0 0 0 25px rgba(0,242,254,.025), 0 0 0 50px rgba(0,242,254,.018);
       content: "";
       pointer-events: none;
     }
 
     .question-number {
       margin-bottom: 22px;
-      color: #e77a98;
+      color: var(--cyan);
       font-size: 10px;
       letter-spacing: .16em;
     }
@@ -346,7 +313,7 @@
       border: 1px solid rgba(255,255,255,.11);
       border-radius: 6px;
       background: rgba(255,255,255,.025);
-      color: #d2c7cb;
+      color: #b7ccce;
       cursor: pointer;
       font-size: 11px;
       line-height: 1.35;
@@ -355,13 +322,13 @@
 
     .answer:hover, .answer.selected {
       transform: translateY(-2px);
-      border-color: rgba(237,102,138,.68);
-      background: rgba(128,0,32,.28);
-      box-shadow: 0 0 20px rgba(210,35,82,.13);
+      border-color: rgba(0,242,254,.68);
+      background: rgba(0,128,128,.2);
+      box-shadow: 0 0 20px rgba(0,242,254,.13);
       color: white;
     }
 
-    .answer.selected { box-shadow: 0 0 22px rgba(210,35,82,.25), inset 0 0 12px rgba(210,35,82,.1); }
+    .answer.selected { box-shadow: 0 0 22px rgba(0,242,254,.25), inset 0 0 12px rgba(0,242,254,.1); }
 
     .question-nav {
       display: flex;
@@ -375,17 +342,17 @@
       padding: 10px 0;
       border: 0;
       background: transparent;
-      color: #b9aeb2;
+      color: #91abad;
       cursor: pointer;
       font-size: 11px;
       transition: color .2s;
     }
 
-    .nav-button:hover:not(:disabled) { color: #fff; }
+    .nav-button:hover:not(:disabled) { color: var(--cyan); }
     .nav-button:disabled { cursor: default; opacity: .35; }
 
     .scale-hint {
-      color: #82777c;
+      color: #688486;
       font-family: var(--mono);
       font-size: 9px;
       letter-spacing: .08em;
@@ -404,7 +371,7 @@
 
     .results-intro {
       margin-bottom: 30px;
-      color: #b9aeb2;
+      color: #91abad;
       font-size: 14px;
     }
 
@@ -431,7 +398,7 @@
 
     .trait-panel h3 {
       margin-bottom: 19px;
-      color: #b9aeb2;
+      color: #91abad;
       font-family: var(--mono);
       font-size: 10px;
       font-weight: 400;
@@ -444,14 +411,20 @@
 
     .trait-line { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 7px; }
     .trait-name { font-size: 12px; font-weight: 600; }
-    .trait-score { color: #e87996; font-size: 10px; }
+    .trait-score { color: var(--cyan); font-size: 10px; }
     .trait-meter { height: 4px; overflow: hidden; border-radius: 8px; background: rgba(255,255,255,.08); }
-    .trait-meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #800020, #f07898); box-shadow: 0 0 10px rgba(237,102,138,.5); }
+    .trait-meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal), var(--cyan)); box-shadow: 0 0 10px rgba(0,242,254,.5); }
+
+    .save-status { margin: 0 auto 12px; color: var(--muted); font-size: 11px; line-height: 1.6; text-align: center; }
+    .save-status:empty { display: none; }
+    .save-status[data-state="error"] { color: #ff9a9a; }
+    .save-status[data-state="success"] { color: var(--cyan); }
+    .save-retry { min-height: 42px; margin-bottom: 18px; }
 
     .disclaimer {
       max-width: 690px;
       margin: 0 auto 24px;
-      color: #8e8287;
+      color: #688486;
       font-size: 11px;
       line-height: 1.65;
       text-align: center;
@@ -461,7 +434,7 @@
 
     footer {
       margin-top: clamp(50px, 8vh, 82px);
-      color: #71676b;
+      color: #567173;
       font-family: var(--mono);
       font-size: 9px;
       letter-spacing: .08em;
@@ -487,47 +460,73 @@
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-      .ambient-orb { animation: none; }
     }
   </style>
 </head>
 <body>
-  <div class="ambient-field" aria-hidden="true">
-    <span class="ambient-orb"></span>
-    <span class="ambient-orb"></span>
-    <span class="ambient-orb"></span>
-    <span class="ambient-orb"></span>
+  <div class="network-field" aria-hidden="true">
+    <svg class="network-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <g>
+        <path class="network-link network-link--bright" d="M720 450 L290 190"/>
+        <path class="network-link" d="M720 450 L1160 190"/>
+        <path class="network-link network-link--bright" d="M720 450 L220 570"/>
+        <path class="network-link" d="M720 450 L1240 590"/>
+        <path class="network-link network-link--bright" d="M720 450 L520 820"/>
+        <path class="network-link" d="M720 450 L960 810"/>
+        <path class="network-link" d="M290 190 L1160 190 L1240 590 L960 810 L520 820 L220 570 Z"/>
+        <path class="network-link" d="M290 190 L220 570 M1160 190 L1240 590"/>
+      </g>
+      <g>
+        <circle class="network-node" cx="290" cy="190" r="4"/>
+        <circle class="network-node" cx="1160" cy="190" r="4"/>
+        <circle class="network-node" cx="220" cy="570" r="4"/>
+        <circle class="network-node" cx="1240" cy="590" r="4"/>
+        <circle class="network-node" cx="520" cy="820" r="4"/>
+        <circle class="network-node" cx="960" cy="810" r="4"/>
+      </g>
+      <g class="mainframe">
+        <circle class="mainframe-halo" cx="720" cy="450" r="46"/>
+        <circle class="mainframe-halo" cx="720" cy="450" r="32"/>
+        <circle class="mainframe-core" cx="720" cy="450" r="9"/>
+        <text class="mainframe-label" x="720" y="480">MAINFRAME</text>
+      </g>
+      <g>
+        <circle class="network-packet" data-target-x="290" data-target-y="190" cx="720" cy="450" r="2.5"/>
+        <circle class="network-packet" data-target-x="1240" data-target-y="590" cx="720" cy="450" r="2.5"/>
+        <circle class="network-packet" data-target-x="520" data-target-y="820" cx="720" cy="450" r="2.5"/>
+      </g>
+    </svg>
   </div>
   <main class="shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Within home">
-        <span class="brand-mark"><i class="fa-solid fa-eye" aria-hidden="true"></i></span>
-        <span>Within</span>
+      <a class="brand" href="#" aria-label="Node 09 home">
+        <span class="brand-mark"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></span>
+        <span>NODE//09</span>
       </a>
-      <span class="session-label">A guided self-reflection</span>
+      <span class="session-label">A personal reflection</span>
     </header>
 
     <section class="intro" id="intro">
-      <p class="eyebrow">Personality, in perspective</p>
-      <h1>Look a little <span>closer.</span></h1>
-      <p class="intro-copy">A quiet moment to notice how you think, feel, and connect. Move through each statement at your own pace; there are no right or wrong answers.</p>
+      <p class="eyebrow">A closer look at your habits</p>
+      <h1>See your <span>patterns.</span></h1>
+      <p class="intro-copy">Answer 25 short questions about how you usually think and act. This is just a personal reflection. It does not check your computer or network. This is a research study: when you finish, your answers and scores will be saved for the research. We do not collect your name or email.</p>
       <div class="meta-row" aria-label="Assessment details">
-        <span><i class="fa-regular fa-clock" aria-hidden="true"></i> About 4 minutes</span>
-        <span><i class="fa-solid fa-shapes" aria-hidden="true"></i> 5 dimensions</span>
-        <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Private by design</span>
+        <span><i class="fa-regular fa-clock" aria-hidden="true"></i> 25 questions</span>
+        <span><i class="fa-solid fa-layer-group" aria-hidden="true"></i> 5 areas</span>
+        <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Answers saved for research</span>
       </div>
       <button class="primary-button" id="begin-button" type="button">
-        Begin the reflection <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        Start questions <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </button>
     </section>
 
-    <section class="assessment" id="assessment" aria-label="Personality questionnaire">
+    <section class="assessment" id="assessment" aria-label="Personal reflection questions">
       <div class="progress-area">
         <div class="progress-head">
-          <span class="progress-copy">Reflection <strong id="progress-count">01 / 25</strong></span>
+          <span class="progress-copy">Question <strong id="progress-count">01 / 25</strong></span>
           <span class="progress-copy" id="progress-percent">4% complete</span>
         </div>
-        <div class="progress-track" role="progressbar" aria-label="Questionnaire progress" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0" id="progressbar">
+        <div class="progress-track" role="progressbar" aria-label="Question progress" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0" id="progressbar">
           <div class="progress-fill" id="progress-fill"></div>
         </div>
       </div>
@@ -536,82 +535,118 @@
         <article class="question-card" id="question-card" aria-live="polite">
           <p class="question-number" id="question-number"></p>
           <h2 class="question-text" id="question-text"></h2>
-          <div class="answers" id="answers" role="group" aria-label="Choose how much you agree"></div>
+          <div class="answers" id="answers" role="group" aria-label="Choose how often this is true for you"></div>
         </article>
       </div>
       <nav class="question-nav" aria-label="Question navigation">
         <button class="nav-button" id="back-button" type="button"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</button>
-        <span class="scale-hint">Choose the answer that feels most like you</span>
+        <span class="scale-hint">Choose how often this is true for you</span>
         <span style="width: 43px" aria-hidden="true"></span>
       </nav>
     </section>
 
     <section class="results" id="results" aria-labelledby="results-title" aria-live="polite">
-      <p class="eyebrow">Reflection complete</p>
-      <h2 id="results-title">Your inner landscape</h2>
-      <p class="results-intro">A snapshot of the patterns you noticed in yourself.</p>
+      <p class="eyebrow">You are finished</p>
+      <h2 id="results-title">Your results</h2>
+      <p class="results-intro">Here is a picture of your answers.</p>
       <div class="results-grid">
         <div class="chart-panel">
           <div class="chart-container"><canvas id="personality-chart" role="img" aria-label="Radar chart showing your scores across five personality dimensions"></canvas></div>
         </div>
         <div class="trait-panel">
-          <h3>Your dimensions</h3>
+          <h3>Your scores</h3>
           <div id="trait-list"></div>
         </div>
       </div>
-      <p class="disclaimer">This brief, informal reflection is inspired by the Big Five (OCEAN) framework. It is not a validated psychological instrument or a clinical assessment. Your responses stay in this browser and are not sent to a server.</p>
+      <p class="disclaimer">This short quiz is for self-reflection only. It is not a medical or mental health test. Your answers and scores are saved for this research; we do not collect your name or email.</p>
+      <p class="save-status" id="save-status" role="status" aria-live="polite"></p>
+      <button class="primary-button save-retry" id="retry-save-button" type="button" hidden>Try saving again</button>
       <button class="primary-button restart-button" id="restart-button" type="button">
-        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reflect again
+        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Run again
       </button>
     </section>
 
-    <footer>Take what resonates. Leave room for the rest.</footer>
+    <footer>A short quiz for self-reflection</footer>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script>
     (() => {
-      const traits = ["Openness", "Conscientiousness", "Extraversion", "Agreeableness", "Neuroticism"];
+      const traits = ["Curiosity", "Planning", "Social energy", "Understanding others", "Handling stress"];
       const questions = [
-        { trait: "Openness", reverse: false, text: "I enjoy exploring ideas that challenge the way I usually see things." },
-        { trait: "Conscientiousness", reverse: false, text: "I make a plan before beginning a task that matters to me." },
-        { trait: "Extraversion", reverse: false, text: "Being around a lively group of people tends to energize me." },
-        { trait: "Agreeableness", reverse: false, text: "I try to understand where someone is coming from, even when we disagree." },
-        { trait: "Neuroticism", reverse: false, text: "Small setbacks can stay on my mind for quite a while." },
-        { trait: "Openness", reverse: true, text: "I prefer familiar routines to unfamiliar experiences." },
-        { trait: "Conscientiousness", reverse: true, text: "I often leave important tasks until the last possible moment." },
-        { trait: "Extraversion", reverse: true, text: "I usually feel most comfortable keeping to myself in social situations." },
-        { trait: "Agreeableness", reverse: true, text: "When people frustrate me, I find it hard to give them the benefit of the doubt." },
-        { trait: "Neuroticism", reverse: true, text: "I stay calm even when several things go wrong at once." },
-        { trait: "Openness", reverse: false, text: "I find myself curious about art, stories, or experiences outside my usual interests." },
-        { trait: "Conscientiousness", reverse: false, text: "I follow through on commitments, including the small ones." },
-        { trait: "Extraversion", reverse: false, text: "I am comfortable being the one who starts a conversation." },
-        { trait: "Agreeableness", reverse: false, text: "I am willing to adjust my approach to make working together easier." },
-        { trait: "Neuroticism", reverse: false, text: "I sometimes worry about what might go wrong, even when things seem fine." },
-        { trait: "Openness", reverse: true, text: "Abstract or imaginative topics rarely hold my attention." },
-        { trait: "Conscientiousness", reverse: true, text: "I find it difficult to keep my space or plans organized." },
-        { trait: "Extraversion", reverse: true, text: "After social events, I usually need plenty of time alone to recharge." },
-        { trait: "Agreeableness", reverse: true, text: "I would rather insist on my way than compromise to keep things peaceful." },
-        { trait: "Neuroticism", reverse: true, text: "I recover quickly after an emotionally difficult day." },
-        { trait: "Openness", reverse: false, text: "I like to imagine different possibilities before settling on one answer." },
-        { trait: "Conscientiousness", reverse: false, text: "I pay close attention to details that others might overlook." },
-        { trait: "Extraversion", reverse: false, text: "I tend to bring enthusiasm into the things I do with others." },
-        { trait: "Agreeableness", reverse: false, text: "I notice when someone needs support and try to offer it." },
-        { trait: "Neuroticism", reverse: false, text: "My mood can shift noticeably when I feel under pressure." }
+        { trait: "Curiosity", reverse: false, text: "When you come across a new idea, how often do you want to learn more about it?" },
+        { trait: "Planning", reverse: false, text: "Before starting an important task, how often do you make a plan?" },
+        { trait: "Social energy", reverse: false, text: "After spending time with a lively group, how often do you feel more energetic?" },
+        { trait: "Understanding others", reverse: false, text: "When someone disagrees with you, how often do you try to understand their point of view?" },
+        { trait: "Handling stress", reverse: false, text: "After a small problem, how often do you keep thinking about it?" },
+        { trait: "Curiosity", reverse: true, text: "When you can choose between something familiar and something new, how often do you choose what you already know?" },
+        { trait: "Planning", reverse: true, text: "How often do you put off important tasks until the last minute?" },
+        { trait: "Social energy", reverse: true, text: "In a group, how often do you prefer to keep to yourself?" },
+        { trait: "Understanding others", reverse: true, text: "When someone frustrates you, how often is it hard to give them another chance?" },
+        { trait: "Handling stress", reverse: true, text: "When several things go wrong at once, how often do you stay calm?" },
+        { trait: "Curiosity", reverse: false, text: "How often do you enjoy art, stories, or activities that are new to you?" },
+        { trait: "Planning", reverse: false, text: "How often do you do the small things you said you would do?" },
+        { trait: "Social energy", reverse: false, text: "When you meet someone new, how often do you start a conversation?" },
+        { trait: "Understanding others", reverse: false, text: "When working with others is difficult, how often do you change your approach to make things easier?" },
+        { trait: "Handling stress", reverse: false, text: "When things are going well, how often do you still worry that something might go wrong?" },
+        { trait: "Curiosity", reverse: true, text: "When a topic is imaginative or hard to picture, how often do you lose interest?" },
+        { trait: "Planning", reverse: true, text: "How often do you find it hard to keep your plans or space organized?" },
+        { trait: "Social energy", reverse: true, text: "After a social event, how often do you need a lot of time alone to feel rested?" },
+        { trait: "Understanding others", reverse: true, text: "When people disagree with you, how often do you insist on having things your way?" },
+        { trait: "Handling stress", reverse: true, text: "After a hard day, how often do you feel better again quickly?" },
+        { trait: "Curiosity", reverse: false, text: "Before choosing what to do, how often do you think of different possibilities?" },
+        { trait: "Planning", reverse: false, text: "How often do you notice small details that other people miss?" },
+        { trait: "Social energy", reverse: false, text: "When doing something with others, how often do you bring energy and enthusiasm?" },
+        { trait: "Understanding others", reverse: false, text: "When someone seems to need help, how often do you notice and offer support?" },
+        { trait: "Handling stress", reverse: false, text: "When you feel under pressure, how often does your mood change?" }
       ];
-      const answerLabels = ["Strongly\ndisagree", "Disagree", "In between", "Agree", "Strongly\nagree"];
+      const answerLabels = ["Never", "Rarely", "Sometimes", "Often", "Almost always"];
       const answers = Array(questions.length).fill(null);
       const intro = document.querySelector("#intro");
       const assessment = document.querySelector("#assessment");
       const results = document.querySelector("#results");
       const card = document.querySelector("#question-card");
       const answerContainer = document.querySelector("#answers");
+      const saveStatus = document.querySelector("#save-status");
+      const retrySaveButton = document.querySelector("#retry-save-button");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let currentIndex = 0;
       let chart = null;
       let audioContext = null;
       let isTransitioning = false;
+
+      if (!reducedMotion && window.gsap) {
+        gsap.to(".network-link--bright", {
+          strokeDashoffset: -68,
+          duration: 4,
+          repeat: -1,
+          ease: "none"
+        });
+        gsap.to(".mainframe-halo", {
+          scale: 1.25,
+          opacity: .12,
+          duration: 2.2,
+          repeat: -1,
+          yoyo: true,
+          stagger: .35,
+          transformOrigin: "50% 50%",
+          ease: "sine.inOut"
+        });
+        document.querySelectorAll(".network-packet").forEach((packet, index) => {
+          const targetX = Number(packet.dataset.targetX);
+          const targetY = Number(packet.dataset.targetY);
+          gsap.to(packet, {
+            attr: { cx: targetX, cy: targetY },
+            duration: 2.4,
+            repeat: -1,
+            yoyo: true,
+            repeatDelay: .4,
+            delay: index * .55,
+            ease: "sine.inOut"
+          });
+        });
+      }
 
       function playTone(frequency, duration, type, volume, endFrequency) {
         try {
@@ -656,7 +691,7 @@
       function renderQuestion() {
         const question = questions[currentIndex];
         document.querySelector("#question-number").textContent =
-          `Question ${String(currentIndex + 1).padStart(2, "0")}  /  ${questions.length}`;
+          `QUESTION ${String(currentIndex + 1).padStart(2, "0")}`;
         document.querySelector("#question-text").textContent = question.text;
         document.querySelector("#progress-count").textContent =
           `${String(currentIndex + 1).padStart(2, "0")} / ${questions.length}`;
@@ -769,11 +804,11 @@
               label: "Your reflection",
               data: scores,
               fill: true,
-              backgroundColor: "rgba(190, 37, 78, 0.2)",
-              borderColor: "#ed668a",
+              backgroundColor: "rgba(0, 128, 128, 0.24)",
+              borderColor: "#00f2fe",
               borderWidth: 2,
-              pointBackgroundColor: "#ff9bb3",
-              pointBorderColor: "#fff1f5",
+              pointBackgroundColor: "#00f2fe",
+              pointBorderColor: "#d9ffff",
               pointHoverRadius: 7,
               pointRadius: 4
             }]
@@ -786,10 +821,10 @@
                 min: 0,
                 max: 100,
                 ticks: { display: false, stepSize: 20 },
-                grid: { color: "rgba(255, 255, 255, .1)" },
-                angleLines: { color: "rgba(255, 255, 255, .12)" },
+                grid: { color: "rgba(0, 242, 254, .16)" },
+                angleLines: { color: "rgba(0, 128, 128, .38)" },
                 pointLabels: {
-                  color: "#eadde2",
+                  color: "#bcebed",
                   font: { family: "Manrope", size: 11, weight: "600" }
                 }
               }
@@ -797,11 +832,11 @@
             plugins: {
               legend: { display: false },
               tooltip: {
-                backgroundColor: "rgba(20, 13, 17, .96)",
-                borderColor: "rgba(237, 102, 138, .4)",
+                backgroundColor: "rgba(3, 12, 14, .97)",
+                borderColor: "rgba(0, 242, 254, .45)",
                 borderWidth: 1,
-                titleColor: "#f5edf0",
-                bodyColor: "#ed9ab0",
+                titleColor: "#e6fbfc",
+                bodyColor: "#00f2fe",
                 callbacks: { label: (context) => ` ${context.formattedValue}%` }
               }
             }
@@ -811,6 +846,33 @@
           gsap.fromTo(results, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .65, ease: "power3.out" });
         }
         resultChime();
+        saveResponse();
+      }
+
+      async function saveResponse() {
+        saveStatus.textContent = "Saving your answers...";
+        saveStatus.removeAttribute("data-state");
+        retrySaveButton.hidden = true;
+        try {
+          const response = await fetch("/api/responses", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ answers })
+          });
+          let result = {};
+          try {
+            result = await response.json();
+          } catch {
+            result = {};
+          }
+          if (!response.ok) throw new Error(result.error || "Your answers could not be saved.");
+          saveStatus.textContent = "Your answers have been saved.";
+          saveStatus.dataset.state = "success";
+        } catch (error) {
+          saveStatus.textContent = error.message || "Your answers could not be saved. Please try again.";
+          saveStatus.dataset.state = "error";
+          retrySaveButton.hidden = false;
+        }
       }
 
       document.querySelector("#begin-button").addEventListener("click", () => {
@@ -836,10 +898,15 @@
         }
         answers.fill(null);
         currentIndex = 0;
+        saveStatus.textContent = "";
+        saveStatus.removeAttribute("data-state");
+        retrySaveButton.hidden = true;
         results.classList.remove("active");
         assessment.classList.add("active");
         renderQuestion();
       });
+
+      retrySaveButton.addEventListener("click", saveResponse);
     })();
   </script>
 </body>

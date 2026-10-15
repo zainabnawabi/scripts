@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+responses.sqlite3
+responses.sqlite3-shm
+responses.sqlite3-wal
+responses.db
+responses.db-shm
+responses.db-wal
